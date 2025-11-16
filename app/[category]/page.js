@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { getPostsByCategory } from "@/lib/sanity";
 
 export const dynamic = "force-dynamic";
 
@@ -38,19 +39,20 @@ export default async function CategoryPage({ params }) {
         {categoryDisplayName}
       </h1>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-max">
         {posts.map((post) => (
           <article
             key={post._id}
             className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col"
           >
             {post.mainImageUrl && (
-              <div className="relative w-full aspect-video bg-gray-100">
+              <div className="relative w-full bg-gray-100 flex items-center justify-center min-h-[250px]">
                 <Image
                   src={post.mainImageUrl}
                   alt={post.mainImageAlt}
-                  fill
-                  className="object-cover"
+                  width={600}
+                  height={400}
+                  className="object-contain w-full h-auto max-h-[400px]"
                 />
               </div>
             )}

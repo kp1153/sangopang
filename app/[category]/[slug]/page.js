@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-
+import { getPostBySlugAndCategory } from "@/lib/sanity";
 import { PortableText } from "@portabletext/react";
 
 export const dynamic = "force-dynamic";
@@ -10,7 +10,6 @@ const getCategoryDisplayName = (route) => {
   const displayNames = {
     jaipur: "जयपुर",
     "nagar-dagar": "नगर-डगर",
-
     "duniya-jahan": "दुनिया-जहान",
     "photo-feature": "फोटो फीचर",
     "khel-sansar": "खेल संसार",
@@ -71,7 +70,7 @@ const portableTextComponents = {
     link: ({ value, children }) => {
       const href = value?.href || "#";
       return (
-        <a
+        
           href={href}
           className="text-blue-600 hover:text-blue-800 underline font-medium"
           target="_blank"
@@ -148,7 +147,6 @@ export default async function NewsPage({ params }) {
         <div className="flex items-center justify-end mb-6">
           <div className="flex items-center gap-4 text-sm text-gray-600">
             <span className="font-medium">{formatDate(post.publishedAt)}</span>
-            <ViewsCounter slug={slug} initialViews={post.views || 0} />
           </div>
         </div>
 

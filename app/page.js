@@ -1,11 +1,12 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { getAllPosts } from "@/lib/sanity";
 
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
-  const posts = [];
+  const posts = await getAllPosts();
 
   if (!posts || posts.length === 0) {
     return (
