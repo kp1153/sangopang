@@ -18,7 +18,7 @@ export default function Footer() {
             >
               सहयोग करें
             </Link>
-            <Link href="/aapki-ray" className="hover:text-pink-500 transition">
+            <Link href="/aapki-raay" className="hover:text-pink-500 transition">
               आपकी राय
             </Link>
             <Link
@@ -33,14 +33,17 @@ export default function Footer() {
             © {new Date().getFullYear()} सर्वाधिकार सुरक्षित
           </p>
 
-          <a
-            href="https://www.web-developer-kp.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-amber-600 font-semibold hover:text-amber-500 transition text-sm"
-          >
-            क्रिएटिव सॉल्यूशंस
-          </a>
+          <p className="text-sm">
+            वेब डेवलपर:{" "}
+            <a
+              href="https://www.web-developer-kp.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-amber-600 font-semibold hover:text-amber-500 transition"
+            >
+              क्रिएटिव सॉल्यूशंस
+            </a>
+          </p>
         </div>
       </div>
     </footer>
