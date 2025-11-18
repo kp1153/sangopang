@@ -6,8 +6,8 @@ export default function AapkiRaay() {
       <div className="text-lg leading-relaxed">
         <p>
           ईमेल:{" "}
-          
-            <href="mailto:sangopangm@gmail.com"
+          <a
+            href="mailto:sangopangm@gmail.com"
             className="text-pink-600 hover:text-pink-700 underline"
           >
             sangopangm@gmail.com
