@@ -4,7 +4,15 @@ export default function AapkiRaay() {
       <h1 className="text-3xl font-bold mb-6">आपकी राय</h1>
 
       <div className="text-lg leading-relaxed">
-        <p>ईमेल: sangopangm@gmail.com</p>
+        <p>
+          ईमेल:{" "}
+          
+            <href="mailto:sangopangm@gmail.com"
+            className="text-pink-600 hover:text-pink-700 underline"
+          >
+            sangopangm@gmail.com
+          </a>
+        </p>
       </div>
     </div>
   );
