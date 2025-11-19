@@ -11,16 +11,6 @@ const client = createClient({
   useCdn: false,
 });
 
-const categoryDisplayNames = {
-  "jayapura-20251116081606": "जयपुर",
-  "nagardagara-20251116081650": "नगर-डगर",
-  "duniya-jahan": "दुनिया-जहान",
-  "photo-pheechara-20251116082033": "फोटो फीचर",
-  "khela-snsaara-20251116082055": "खेल संसार",
-  "sangopang-english-20251116082148": "Sangopang English",
-  "duniiyaajahana-20251116081858": "दुनिया-जहान",
-};
-
 async function getCategoryPosts(categorySlug, limit = 6) {
   return await client.fetch(
     `
@@ -49,30 +39,23 @@ const formatDate = (dateString) => {
 };
 
 export default async function HomePage() {
-  // Fetch posts from all categories
-  const jaipurPosts = await getCategoryPosts("jayapura-20251116081606", 6);
-  const nagarPosts = await getCategoryPosts("nagardagara-20251116081650", 6);
+  const jaipurPosts = await getCategoryPosts("jaipur", 6);
+  const nagarPosts = await getCategoryPosts("nagar-dagar", 6);
   const duniyaPosts = await getCategoryPosts("duniya-jahan", 6);
-  const photoPosts = await getCategoryPosts(
-    "photo-pheechara-20251116082033",
-    6
-  );
-  const khelPosts = await getCategoryPosts("khela-snsaara-20251116082055", 6);
-  const englishPosts = await getCategoryPosts(
-    "sangopang-english-20251116082148",
-    6
-  );
+  const photoPosts = await getCategoryPosts("photo-feature", 6);
+  const khelPosts = await getCategoryPosts("khel-sansar", 6);
+  const vividhPosts = await getCategoryPosts("vividh", 6);
 
   const categories = [
     {
       name: "जयपुर",
-      slug: "jayapura-20251116081606",
+      slug: "jaipur",
       posts: jaipurPosts,
       color: "from-pink-500 to-rose-500",
     },
     {
       name: "नगर-डगर",
-      slug: "nagardagara-20251116081650",
+      slug: "nagar-dagar",
       posts: nagarPosts,
       color: "from-purple-500 to-indigo-500",
     },
@@ -84,27 +67,26 @@ export default async function HomePage() {
     },
     {
       name: "फोटो फीचर",
-      slug: "photo-pheechara-20251116082033",
+      slug: "photo-feature",
       posts: photoPosts,
       color: "from-orange-500 to-red-500",
     },
     {
       name: "खेल संसार",
-      slug: "khela-snsaara-20251116082055",
+      slug: "khel-sansar",
       posts: khelPosts,
       color: "from-green-500 to-emerald-500",
     },
     {
-      name: "Sangopang English",
-      slug: "sangopang-english-20251116082148",
-      posts: englishPosts,
+      name: "विविध",
+      slug: "vividh",
+      posts: vividhPosts,
       color: "from-teal-500 to-blue-500",
     },
   ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Hero Section - Featured Post */}
       {duniyaPosts[0] && (
         <section className="relative bg-gradient-to-r from-gray-900 to-gray-800 text-white">
           <div className="max-w-7xl mx-auto px-4 py-12">
@@ -160,13 +142,11 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Category Sections */}
       <div className="max-w-7xl mx-auto px-4 py-12 space-y-16">
         {categories.map(
           (category) =>
             category.posts.length > 0 && (
               <section key={category.slug} className="space-y-6">
-                {/* Category Header */}
                 <div className="flex items-center justify-between">
                   <h2
                     className={`text-3xl font-bold bg-gradient-to-r ${category.color} bg-clip-text text-transparent`}
@@ -194,14 +174,12 @@ export default async function HomePage() {
                   </Link>
                 </div>
 
-                {/* Posts Grid */}
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {category.posts.map((post) => (
                     <article
                       key={post._id}
                       className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
                     >
-                      {/* Image */}
                       {post.mainImageUrl && (
                         <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
                           <Image
@@ -214,7 +192,6 @@ export default async function HomePage() {
                         </div>
                       )}
 
-                      {/* Content */}
                       <div className="p-5 space-y-3">
                         <div className="flex items-center justify-between text-xs text-gray-500">
                           <span
@@ -254,7 +231,6 @@ export default async function HomePage() {
                         </Link>
                       </div>
 
-                      {/* Bottom Gradient Bar */}
                       <div
                         className={`h-1 bg-gradient-to-r ${category.color} scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`}
                       />
