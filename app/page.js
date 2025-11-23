@@ -46,200 +46,210 @@ export default async function HomePage() {
   const khelPosts = await getCategoryPosts("khel-sansar", 6);
   const vividhPosts = await getCategoryPosts("vividh", 6);
 
-  const categories = [
-    {
-      name: "जयपुर",
-      slug: "jaipur",
-      posts: jaipurPosts,
-      color: "from-pink-500 to-rose-500",
-    },
-    {
-      name: "नगर-डगर",
-      slug: "nagar-dagar",
-      posts: nagarPosts,
-      color: "from-purple-500 to-indigo-500",
-    },
-    {
-      name: "दुनिया-जहान",
-      slug: "duniya-jahan",
-      posts: duniyaPosts,
-      color: "from-blue-500 to-cyan-500",
-    },
-    {
-      name: "जीवन के रंग",
-      slug: "jeevan-ke-rang",
-      posts: photoPosts,
-      color: "from-orange-500 to-red-500",
-    },
-    {
-      name: "खेल संसार",
-      slug: "khel-sansar",
-      posts: khelPosts,
-      color: "from-green-500 to-emerald-500",
-    },
-    {
-      name: "विविध",
-      slug: "vividh",
-      posts: vividhPosts,
-      color: "from-teal-500 to-blue-500",
-    },
+  const allPosts = [
+    ...jaipurPosts,
+    ...nagarPosts,
+    ...duniyaPosts,
+    ...photoPosts,
+    ...khelPosts,
+    ...vividhPosts,
   ];
+  const latestPosts = allPosts
+    .filter((post) => post.mainImageUrl)
+    .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
+    .slice(0, 20);
+
+  const heroPost = latestPosts[0];
+  const popularPosts = latestPosts.slice(1, 5);
+  const mainNewsPosts = latestPosts.slice(5, 9);
+  const featuredPosts = latestPosts.slice(9, 12);
+  const relatedPosts = latestPosts.slice(12, 15);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {duniyaPosts[0] && (
-        <section className="relative bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-          <div className="max-w-7xl mx-auto px-4 py-12">
-            <div className="grid lg:grid-cols-2 gap-8 items-center">
-              <div className="space-y-4">
-                <span className="inline-block bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 py-2 rounded-full text-sm font-bold">
-                  ताजा खबर
-                </span>
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
-                  <Link
-                    href={`/${duniyaPosts[0].category?.slug?.current}/${duniyaPosts[0].slug?.current}`}
-                    className="hover:text-pink-400 transition"
-                  >
-                    {duniyaPosts[0].title}
-                  </Link>
-                </h1>
-                <p className="text-gray-300 text-lg">
-                  {formatDate(duniyaPosts[0].publishedAt)}
-                </p>
+    <div className="min-h-screen bg-white">
+      <div className="container mx-auto px-4 py-6">
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Left Column - Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Hero Post */}
+            {heroPost && heroPost.mainImageUrl && (
+              <article className="relative h-96 overflow-hidden">
+                <Image
+                  src={heroPost.mainImageUrl}
+                  alt={heroPost.mainImageAlt || heroPost.title}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <span className="inline-block bg-gray-900 text-white px-3 py-1 text-xs font-bold mb-3 uppercase">
+                    {heroPost.category?.name}
+                  </span>
+                  <h1 className="text-3xl font-bold mb-2 leading-tight">
+                    <Link
+                      href={`/${heroPost.category?.slug?.current}/${heroPost.slug?.current}`}
+                      className="hover:text-red-400 transition-colors"
+                    >
+                      {heroPost.title}
+                    </Link>
+                  </h1>
+                </div>
+              </article>
+            )}
+
+            {/* Latest News Section */}
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-gray-900">Latest News</h2>
                 <Link
-                  href={`/${duniyaPosts[0].category?.slug?.current}/${duniyaPosts[0].slug?.current}`}
-                  className="inline-flex items-center gap-2 bg-pink-600 hover:bg-pink-700 px-6 py-3 rounded-full font-semibold transition"
+                  href="/all"
+                  className="text-xs text-red-600 hover:underline font-semibold"
                 >
-                  पूरी खबर पढ़ें
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
-                  </svg>
+                  SEE ALL
                 </Link>
               </div>
-              {duniyaPosts[0].mainImageUrl && (
-                <div className="relative h-80 lg:h-96 rounded-2xl overflow-hidden shadow-2xl">
-                  <Image
-                    src={duniyaPosts[0].mainImageUrl}
-                    alt={duniyaPosts[0].mainImageAlt || duniyaPosts[0].title}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-      )}
-
-      <div className="max-w-7xl mx-auto px-4 py-12 space-y-16">
-        {categories.map(
-          (category) =>
-            category.posts.length > 0 && (
-              <section key={category.slug} className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <h2
-                    className={`text-3xl font-bold bg-gradient-to-r ${category.color} bg-clip-text text-transparent`}
+              <div className="space-y-4">
+                {mainNewsPosts.map((post) => (
+                  <article
+                    key={post._id}
+                    className="flex gap-4 border-b border-gray-200 pb-4"
                   >
-                    {category.name}
-                  </h2>
-                  <Link
-                    href={`/${category.slug}`}
-                    className="text-pink-600 hover:text-pink-700 font-semibold flex items-center gap-2 group"
-                  >
-                    सभी देखें
-                    <svg
-                      className="w-5 h-5 group-hover:translate-x-1 transition"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 7l5 5m0 0l-5 5m5-5H6"
-                      />
-                    </svg>
-                  </Link>
-                </div>
-
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {category.posts.map((post) => (
-                    <article
-                      key={post._id}
-                      className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
-                    >
-                      {post.mainImageUrl && (
-                        <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-                          <Image
-                            src={post.mainImageUrl}
-                            alt={post.mainImageAlt || post.title}
-                            fill
-                            className="object-cover group-hover:scale-110 transition-transform duration-500"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        </div>
-                      )}
-
-                      <div className="p-5 space-y-3">
-                        <div className="flex items-center justify-between text-xs text-gray-500">
-                          <span
-                            className={`bg-gradient-to-r ${category.color} text-white px-3 py-1 rounded-full font-semibold`}
-                          >
-                            {category.name}
-                          </span>
-                          <span>{formatDate(post.publishedAt)}</span>
-                        </div>
-
-                        <h3 className="text-lg font-bold line-clamp-2 leading-tight text-gray-900 group-hover:text-pink-600 transition">
-                          <Link
-                            href={`/${post.category?.slug?.current}/${post.slug?.current}`}
-                          >
-                            {post.title}
-                          </Link>
-                        </h3>
-
+                    {post.mainImageUrl && (
+                      <div className="relative w-24 h-24 flex-shrink-0">
+                        <Image
+                          src={post.mainImageUrl}
+                          alt={post.mainImageAlt || post.title}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    )}
+                    <div className="flex-1">
+                      <span className="inline-block bg-gray-900 text-white px-2 py-1 text-xs font-bold mb-2 uppercase">
+                        {post.category?.name}
+                      </span>
+                      <h3 className="font-bold text-sm leading-tight mb-1 line-clamp-2 hover:text-red-600 transition-colors">
                         <Link
                           href={`/${post.category?.slug?.current}/${post.slug?.current}`}
-                          className="inline-flex items-center gap-2 text-pink-600 hover:text-pink-700 font-semibold text-sm"
                         >
-                          और पढ़ें
-                          <svg
-                            className="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M13 7l5 5m0 0l-5 5m5-5H6"
-                            />
-                          </svg>
+                          {post.title}
                         </Link>
+                      </h3>
+                      <div className="flex items-center gap-3 text-xs text-gray-500 mt-2">
+                        <span>{formatDate(post.publishedAt)}</span>
+                        <span>0</span>
                       </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
 
-                      <div
-                        className={`h-1 bg-gradient-to-r ${category.color} scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`}
-                      />
-                    </article>
-                  ))}
-                </div>
-              </section>
-            )
-        )}
+            {/* Featured Section */}
+            <div>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">Featured</h2>
+              <div className="space-y-4">
+                {featuredPosts.map((post) => (
+                  <article
+                    key={post._id}
+                    className="border-b border-gray-200 pb-4"
+                  >
+                    <span className="inline-block bg-gray-900 text-white px-2 py-1 text-xs font-bold mb-2 uppercase">
+                      {post.category?.name}
+                    </span>
+                    <h3 className="font-bold text-base leading-tight mb-2 hover:text-red-600 transition-colors">
+                      <Link
+                        href={`/${post.category?.slug?.current}/${post.slug?.current}`}
+                      >
+                        {post.title}
+                      </Link>
+                    </h3>
+                    <div className="flex items-center gap-3 text-xs text-gray-500">
+                      <span>{formatDate(post.publishedAt)}</span>
+                      <span>0</span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Sidebar */}
+          <div className="space-y-6">
+            {/* Popular Posts */}
+            <div className="bg-gray-50 p-4">
+              <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-red-600">
+                Popular
+              </h3>
+              <div className="space-y-4">
+                {popularPosts.map((post) => (
+                  <article key={post._id} className="flex gap-3">
+                    {post.mainImageUrl && (
+                      <div className="relative w-20 h-20 flex-shrink-0">
+                        <Image
+                          src={post.mainImageUrl}
+                          alt={post.mainImageAlt || post.title}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    )}
+                    <div className="flex-1">
+                      <span className="inline-block bg-gray-900 text-white px-2 py-1 text-xs font-bold mb-1 uppercase">
+                        {post.category?.name}
+                      </span>
+                      <h4 className="font-bold text-xs leading-tight line-clamp-2 hover:text-red-600 transition-colors">
+                        <Link
+                          href={`/${post.category?.slug?.current}/${post.slug?.current}`}
+                        >
+                          {post.title}
+                        </Link>
+                      </h4>
+                      <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
+                        <span>{formatDate(post.publishedAt)}</span>
+                        <span>0</span>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            {/* Related Posts */}
+            <div className="bg-gray-900 text-white p-4">
+              <h3 className="text-lg font-bold mb-4 pb-2 border-b-2 border-red-600">
+                Related
+              </h3>
+              <div className="space-y-4">
+                {relatedPosts.map((post) => (
+                  <article key={post._id}>
+                    {post.mainImageUrl && (
+                      <div className="relative w-full h-32 mb-2">
+                        <Image
+                          src={post.mainImageUrl}
+                          alt={post.mainImageAlt || post.title}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    )}
+                    <h4 className="font-bold text-sm leading-tight mb-2 hover:text-red-400 transition-colors">
+                      <Link
+                        href={`/${post.category?.slug?.current}/${post.slug?.current}`}
+                      >
+                        {post.title}
+                      </Link>
+                    </h4>
+                    <div className="text-xs text-gray-400">
+                      {formatDate(post.publishedAt)}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

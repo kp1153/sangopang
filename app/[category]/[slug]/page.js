@@ -18,7 +18,6 @@ const getCategoryDisplayName = (route) => {
   return displayNames[route] || route;
 };
 
-// Extract YouTube video ID from URL
 const getYouTubeId = (url) => {
   if (!url) return null;
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -29,41 +28,41 @@ const getYouTubeId = (url) => {
 const portableTextComponents = {
   block: {
     normal: ({ children }) => (
-      <p className="mb-4 text-gray-800 leading-relaxed text-lg">{children}</p>
+      <p className="mb-4 text-gray-800 leading-relaxed text-base">{children}</p>
     ),
     h1: ({ children }) => (
-      <h1 className="text-3xl font-bold mb-6 text-gray-900 mt-8">{children}</h1>
+      <h1 className="text-2xl font-bold mb-4 text-gray-900 mt-6">{children}</h1>
     ),
     h2: ({ children }) => (
-      <h2 className="text-2xl font-bold mb-4 text-gray-900 mt-6">{children}</h2>
+      <h2 className="text-xl font-bold mb-3 text-gray-900 mt-5">{children}</h2>
     ),
     h3: ({ children }) => (
-      <h3 className="text-xl font-bold mb-3 text-gray-900 mt-5">{children}</h3>
+      <h3 className="text-lg font-bold mb-2 text-gray-900 mt-4">{children}</h3>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-blue-500 pl-6 italic text-gray-700 my-6 bg-blue-50 py-4 rounded-r-lg">
+      <blockquote className="border-l-4 border-red-600 pl-4 italic text-gray-700 my-4 bg-gray-50 py-3">
         {children}
       </blockquote>
     ),
   },
   list: {
     bullet: ({ children }) => (
-      <ul className="list-disc ml-6 mb-4 text-gray-800 space-y-2">
+      <ul className="list-disc ml-6 mb-4 text-gray-800 space-y-1">
         {children}
       </ul>
     ),
     number: ({ children }) => (
-      <ol className="list-decimal ml-6 mb-4 text-gray-800 space-y-2">
+      <ol className="list-decimal ml-6 mb-4 text-gray-800 space-y-1">
         {children}
       </ol>
     ),
   },
   listItem: {
     bullet: ({ children }) => (
-      <li className="text-lg leading-relaxed">{children}</li>
+      <li className="text-base leading-relaxed">{children}</li>
     ),
     number: ({ children }) => (
-      <li className="text-lg leading-relaxed">{children}</li>
+      <li className="text-base leading-relaxed">{children}</li>
     ),
   },
   marks: {
@@ -80,7 +79,7 @@ const portableTextComponents = {
       return (
         <a
           href={href}
-          className="text-blue-600 hover:text-blue-800 underline font-medium"
+          className="text-blue-600 hover:text-blue-800 underline"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -93,13 +92,13 @@ const portableTextComponents = {
     cloudinaryImage: ({ value }) => {
       if (!value?.url) return null;
       return (
-        <div className="my-8 flex flex-col items-center">
+        <div className="my-6 flex flex-col items-center">
           <Image
             src={value.url}
             alt={value.caption || "Article image"}
             width={1200}
             height={800}
-            className="object-contain rounded-lg shadow max-h-[70vh] w-auto bg-gray-100"
+            className="object-contain max-h-[70vh] w-auto bg-gray-100"
           />
           {value.caption && (
             <p className="text-sm text-gray-600 text-center mt-2 italic w-full">
@@ -110,27 +109,26 @@ const portableTextComponents = {
       );
     },
     gallery: ({ value }) => (
-      <div className="my-8 grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="my-6 grid grid-cols-2 md:grid-cols-3 gap-4">
         {value.images?.map((img, index) => (
           <div key={index} className="relative aspect-square">
             <Image
               src={img.url}
               alt={img.alt || `Gallery image ${index + 1}`}
               fill
-              className="object-cover rounded-lg shadow"
+              className="object-cover"
             />
           </div>
         ))}
       </div>
     ),
-    // YouTube embed support
     youtube: ({ value }) => {
       const videoId = getYouTubeId(value?.url);
       if (!videoId) return null;
 
       return (
-        <div className="my-8">
-          <div className="relative w-full pt-[56.25%] rounded-lg overflow-hidden shadow-lg">
+        <div className="my-6">
+          <div className="relative w-full pt-[56.25%] overflow-hidden">
             <iframe
               className="absolute top-0 left-0 w-full h-full"
               src={`https://www.youtube.com/embed/${videoId}`}
@@ -148,14 +146,13 @@ const portableTextComponents = {
         </div>
       );
     },
-    // Video embed support (generic)
     videoEmbed: ({ value }) => {
       const videoId = getYouTubeId(value?.url);
       if (!videoId) return null;
 
       return (
-        <div className="my-8">
-          <div className="relative w-full pt-[56.25%] rounded-lg overflow-hidden shadow-lg">
+        <div className="my-6">
+          <div className="relative w-full pt-[56.25%] overflow-hidden">
             <iframe
               className="absolute top-0 left-0 w-full h-full"
               src={`https://www.youtube.com/embed/${videoId}`}
@@ -173,14 +170,13 @@ const portableTextComponents = {
         </div>
       );
     },
-    // Video URL type
     video: ({ value }) => {
       const videoId = getYouTubeId(value?.url);
       if (!videoId) return null;
 
       return (
-        <div className="my-8">
-          <div className="relative w-full pt-[56.25%] rounded-lg overflow-hidden shadow-lg">
+        <div className="my-6">
+          <div className="relative w-full pt-[56.25%] overflow-hidden">
             <iframe
               className="absolute top-0 left-0 w-full h-full"
               src={`https://www.youtube.com/embed/${videoId}`}
@@ -198,10 +194,7 @@ const portableTextComponents = {
 
 export default async function NewsPage({ params }) {
   const { category, slug } = await params;
-
-  // ✅ URL decode करो
   const decodedSlug = decodeURIComponent(slug);
-
   const post = await getPostBySlugAndCategory(decodedSlug, category);
 
   if (!post) {
@@ -224,66 +217,88 @@ export default async function NewsPage({ params }) {
   const categoryDisplayName = getCategoryDisplayName(category);
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-end mb-6">
-          <div className="flex items-center gap-4 text-sm text-gray-600">
-            <span className="font-medium">{formatDate(post.publishedAt)}</span>
+    <main className="min-h-screen bg-white">
+      <div className="container mx-auto px-4 py-6">
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Main Content */}
+          <div className="lg:col-span-2">
+            <article className="bg-white">
+              <div className="mb-4">
+                <span className="inline-block bg-gray-900 text-white px-3 py-1 text-xs font-bold uppercase">
+                  {categoryDisplayName}
+                </span>
+              </div>
+
+              <h1 className="text-3xl font-bold mb-4 text-gray-900 leading-tight">
+                {post.title}
+              </h1>
+
+              <div className="flex items-center gap-4 text-sm text-gray-500 mb-6">
+                <span>{formatDate(post.publishedAt)}</span>
+                <span>0</span>
+              </div>
+
+              {post.mainImageUrl && (
+                <div className="w-full mb-6">
+                  <Image
+                    src={post.mainImageUrl}
+                    alt={post.mainImageAlt || "Main image"}
+                    width={800}
+                    height={600}
+                    className="object-cover w-full bg-gray-100"
+                    priority
+                  />
+                </div>
+              )}
+
+              {post.mainImageCaption && (
+                <p className="text-sm text-gray-600 mb-6 italic">
+                  {post.mainImageCaption}
+                </p>
+              )}
+
+              <div className="prose prose-base max-w-none">
+                <PortableText
+                  value={post.content}
+                  components={portableTextComponents}
+                />
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                <Link
+                  href="/"
+                  className="inline-flex items-center px-4 py-2 bg-gray-900 text-white hover:bg-red-600 transition-colors font-semibold text-sm"
+                >
+                  होम पेज
+                  <svg
+                    className="w-4 h-4 ml-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                    />
+                  </svg>
+                </Link>
+              </div>
+            </article>
           </div>
-        </div>
 
-        <h1 className="text-4xl font-bold mb-8 text-gray-900 leading-tight">
-          {post.title}
-        </h1>
-
-        {post.mainImageUrl && (
-          <div className="w-full mb-8 flex justify-center">
-            <Image
-              src={post.mainImageUrl}
-              alt={post.mainImageAlt || "Main image"}
-              width={2500}
-              height={2122}
-              className="object-contain w-auto max-h-[80vh] rounded-xl shadow bg-gray-100"
-              priority
-            />
+          {/* Sidebar */}
+          <div className="space-y-6">
+            <div className="bg-gray-50 p-4">
+              <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-red-600">
+                Popular
+              </h3>
+              <p className="text-sm text-gray-600">
+                संबंधित समाचार जल्द आ रहे हैं...
+              </p>
+            </div>
           </div>
-        )}
-
-        {post.mainImageCaption && (
-          <p className="text-center text-sm text-gray-600 mb-8 italic -mt-4">
-            {post.mainImageCaption}
-          </p>
-        )}
-
-        <article className="bg-white rounded-xl shadow-lg p-8 mb-8">
-          <div className="prose prose-lg max-w-none">
-            <PortableText
-              value={post.content}
-              components={portableTextComponents}
-            />
-          </div>
-        </article>
-
-        <div className="flex items-center justify-center">
-          <Link
-            href="/"
-            className="inline-flex items-center px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-semibold"
-          >
-            होम पेज
-            <svg
-              className="w-5 h-5 ml-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-              />
-            </svg>
-          </Link>
         </div>
       </div>
     </main>

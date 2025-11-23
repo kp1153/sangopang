@@ -2,20 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const menuItems = [
     { name: "होम", href: "/" },
@@ -28,107 +18,132 @@ export default function Navbar() {
   ];
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`z-50 transition-all duration-300 ${
-        scrolled ? "bg-blue-100/95 backdrop-blur-md shadow-lg" : "bg-blue-100"
-      }`}
-    >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between py-6">
-          {/* Logo Section */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-          >
-            <Link href="/" className="relative group">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Image
-                  src="/logo.jpg"
-                  alt="Logo"
-                  width={250}
-                  height={83}
-                  className="object-contain drop-shadow-2xl transition-all duration-300 group-hover:drop-shadow-[0_0_20px_rgba(236,72,153,0.5)]"
-                  style={{
-                    filter:
-                      "drop-shadow(0 10px 15px rgba(0,0,0,0.5)) drop-shadow(0 4px 6px rgba(0,0,0,0.3))",
-                  }}
-                />
-              </motion.div>
+    <>
+      {/* Top Bar */}
+      <div className="bg-gray-100 border-b border-gray-200">
+        <div className="container mx-auto px-4 py-2 flex items-center justify-between text-xs">
+          <div className="flex items-center gap-4 text-gray-700">
+            <Link
+              href="/login"
+              className="hover:text-red-600 transition-colors"
+            >
+              लॉगिन
             </Link>
-          </motion.div>
-
-          {/* Menu Button */}
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setIsOpen(!isOpen)}
-            className="text-zinc-900 focus:outline-none p-2 rounded-lg hover:bg-blue-200 transition-colors"
-          >
-            <motion.svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              animate={isOpen ? "open" : "closed"}
+            <Link
+              href="/sitemap"
+              className="hover:text-red-600 transition-colors"
             >
-              <motion.path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                variants={{
-                  closed: { d: "M4 6h16M4 12h16M4 18h16" },
-                  open: { d: "M6 18L18 6M6 6l12 12" },
-                }}
-                transition={{ duration: 0.3 }}
-              />
-            </motion.svg>
-          </motion.button>
+              साइट मैप
+            </Link>
+            <Link href="/help" className="hover:text-red-600 transition-colors">
+              सहायता
+            </Link>
+            <Link href="/faqs" className="hover:text-red-600 transition-colors">
+              प्रश्न
+            </Link>
+          </div>
+          <div className="flex items-center gap-3">
+            <button className="hover:text-red-600 transition-colors">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
+      </div>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.ul
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="space-y-1 text-sm overflow-hidden pb-4"
+      {/* Header */}
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="relative group">
+              <Image
+                src="/logo.jpg"
+                alt="Logo"
+                width={250}
+                height={83}
+                className="object-contain"
+              />
+            </Link>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-gray-900 focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition-colors md:hidden"
             >
-              {menuItems.map((item, index) => (
-                <motion.li
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                {isOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                )}
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Navigation */}
+      <nav className="bg-gray-900 sticky top-[73px] z-40">
+        <div className="container mx-auto px-4">
+          <div className="hidden md:flex items-center justify-between">
+            <div className="flex items-center">
+              {menuItems.map((item) => (
+                <Link
                   key={item.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05 }}
+                  href={item.href}
+                  className="text-white px-4 py-3 hover:bg-red-600 font-semibold text-sm transition-colors"
                 >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+            <button className="text-white hover:text-red-600 transition-colors p-3">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
+
+          {/* Mobile Menu */}
+          {isOpen && (
+            <ul className="md:hidden space-y-1 text-sm pb-4">
+              {menuItems.map((item) => (
+                <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="block py-3 px-4 rounded-lg text-zinc-900 hover:text-pink-600 hover:bg-blue-200 transition-all duration-200 relative group"
+                    className="block py-3 px-4 text-white hover:bg-red-600 transition-colors"
                     onClick={() => setIsOpen(false)}
                   >
-                    <span className="relative z-10">{item.name}</span>
-                    <motion.span
-                      className="absolute left-0 top-0 h-full w-1 bg-pink-500 rounded-r"
-                      initial={{ scaleY: 0 }}
-                      whileHover={{ scaleY: 1 }}
-                      transition={{ duration: 0.2 }}
-                    />
+                    {item.name}
                   </Link>
-                </motion.li>
+                </li>
               ))}
-            </motion.ul>
+            </ul>
           )}
-        </AnimatePresence>
-      </div>
-    </motion.nav>
+        </div>
+      </nav>
+    </>
   );
 }
