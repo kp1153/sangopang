@@ -18,7 +18,7 @@ async function getCategoryPosts(categorySlug, limit = 6) {
       _id,
       title,
       slug,
-      mainImageUrl,
+     "mainImageUrl": mainImage,
       mainImageAlt,
       publishedAt,
       category->{name, slug}
@@ -55,7 +55,6 @@ export default async function HomePage() {
     ...vividhPosts,
   ];
   const latestPosts = allPosts
-    .filter((post) => post.mainImageUrl)
     .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
     .slice(0, 20);
 
@@ -69,36 +68,50 @@ export default async function HomePage() {
     <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-6">
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* Left Column - Main Content */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Hero Post */}
-            {heroPost && heroPost.mainImageUrl && (
-              <article className="relative h-96 overflow-hidden">
-                <Image
-                  src={heroPost.mainImageUrl}
-                  alt={heroPost.mainImageAlt || heroPost.title}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+            {heroPost && (
+              <article className="border border-gray-200 overflow-hidden">
+                {heroPost.mainImageUrl && (
+                  <div className="relative h-80 bg-gray-100">
+                    <Image
+                      src={heroPost.mainImageUrl}
+                      alt={heroPost.mainImageAlt || heroPost.title}
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                )}
+                <div className="bg-white p-4">
                   <span className="inline-block bg-gray-900 text-white px-3 py-1 text-xs font-bold mb-3 uppercase">
                     {heroPost.category?.name}
                   </span>
-                  <h1 className="text-3xl font-bold mb-2 leading-tight">
-                    <Link
-                      href={`/${heroPost.category?.slug?.current}/${heroPost.slug?.current}`}
-                      className="hover:text-red-400 transition-colors"
-                    >
-                      {heroPost.title}
-                    </Link>
+                  <h1 className="text-3xl font-bold mb-3 leading-tight text-gray-900">
+                    {heroPost.title}
                   </h1>
+                  <Link
+                    href={`/${heroPost.category?.slug?.current}/${heroPost.slug?.current}`}
+                    className="inline-flex items-center text-red-600 hover:text-red-700 font-semibold text-sm"
+                  >
+                    और पढ़ें
+                    <svg
+                      className="w-4 h-4 ml-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
+                  </Link>
                 </div>
               </article>
             )}
 
-            {/* Latest News Section */}
             <div>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-gray-900">Latest News</h2>
@@ -146,7 +159,6 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Featured Section */}
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-4">Featured</h2>
               <div className="space-y-4">
@@ -175,9 +187,7 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Right Sidebar */}
           <div className="space-y-6">
-            {/* Popular Posts */}
             <div className="bg-gray-50 p-4">
               <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-red-600">
                 Popular
@@ -216,7 +226,6 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Related Posts */}
             <div className="bg-gray-900 text-white p-4">
               <h3 className="text-lg font-bold mb-4 pb-2 border-b-2 border-red-600">
                 Related

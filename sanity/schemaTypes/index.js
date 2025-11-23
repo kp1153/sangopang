@@ -448,6 +448,27 @@ export const schema = {
             },
           ],
         },
+
+        {
+          type: "object",
+          name: "youtube",
+          title: "YouTube Video",
+          fields: [
+            {
+              name: "url",
+              title: "YouTube URL",
+              type: "url",
+              validation: (Rule) =>
+                Rule.required().uri({ scheme: ["http", "https"] }),
+            },
+            {
+              name: "caption",
+              title: "Caption",
+              type: "string",
+            },
+          ],
+        },
+
         {
           type: "object",
           name: "break",

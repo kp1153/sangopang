@@ -1,3 +1,5 @@
+// app/[category]/[slug]/page.js
+
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -76,12 +78,14 @@ const portableTextComponents = {
     ),
     link: ({ value, children }) => {
       const href = value?.href || "#";
+      const target = value?.blank ? "_blank" : undefined;
+      const rel = target === "_blank" ? "noopener noreferrer" : undefined;
       return (
         <a
           href={href}
           className="text-blue-600 hover:text-blue-800 underline"
-          target="_blank"
-          rel="noopener noreferrer"
+          target={target}
+          rel={rel}
         >
           {children}
         </a>
@@ -108,33 +112,34 @@ const portableTextComponents = {
         </div>
       );
     },
-    gallery: ({ value }) => (
-      <div className="my-6 grid grid-cols-2 md:grid-cols-3 gap-4">
-        {value.images?.map((img, index) => (
-          <div key={index} className="relative aspect-square">
-            <Image
-              src={img.url}
-              alt={img.alt || `Gallery image ${index + 1}`}
-              fill
-              className="object-cover"
-            />
-          </div>
-        ))}
-      </div>
-    ),
+    gallery: ({ value }) => {
+      if (!value?.images) return null;
+      return (
+        <div className="my-6 grid grid-cols-2 md:grid-cols-3 gap-4">
+          {value.images.map((img, index) => (
+            <div key={index} className="relative aspect-square">
+              <Image
+                src={img.url}
+                alt={img.alt || `Gallery image ${index + 1}`}
+                fill
+                className="object-cover"
+              />
+            </div>
+          ))}
+        </div>
+      );
+    },
     youtube: ({ value }) => {
       const videoId = getYouTubeId(value?.url);
       if (!videoId) return null;
-
       return (
         <div className="my-6">
-          <div className="relative w-full pt-[56.25%] overflow-hidden">
+          <div className="relative w-full pt-[56.25%] bg-black">
             <iframe
               className="absolute top-0 left-0 w-full h-full"
-              src={`https://www.youtube.com/embed/${videoId}`}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              src={`https://www.youtube.com/embed/${videoId}?rel=0`}
+              title="YouTube video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             />
           </div>
@@ -146,48 +151,11 @@ const portableTextComponents = {
         </div>
       );
     },
-    videoEmbed: ({ value }) => {
-      const videoId = getYouTubeId(value?.url);
-      if (!videoId) return null;
-
-      return (
-        <div className="my-6">
-          <div className="relative w-full pt-[56.25%] overflow-hidden">
-            <iframe
-              className="absolute top-0 left-0 w-full h-full"
-              src={`https://www.youtube.com/embed/${videoId}`}
-              title="Video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-          {value.caption && (
-            <p className="text-sm text-gray-600 text-center mt-2 italic">
-              {value.caption}
-            </p>
-          )}
-        </div>
-      );
-    },
-    video: ({ value }) => {
-      const videoId = getYouTubeId(value?.url);
-      if (!videoId) return null;
-
-      return (
-        <div className="my-6">
-          <div className="relative w-full pt-[56.25%] overflow-hidden">
-            <iframe
-              className="absolute top-0 left-0 w-full h-full"
-              src={`https://www.youtube.com/embed/${videoId}`}
-              title="Video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-        </div>
-      );
+    break: ({ value }) => {
+      if (value?.style === "break") {
+        return <div className="my-8" />;
+      }
+      return <hr className="my-6 border-gray-300" />;
     },
   },
 };
@@ -220,28 +188,12 @@ export default async function NewsPage({ params }) {
     <main className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-6">
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* Main Content */}
           <div className="lg:col-span-2">
             <article className="bg-white">
-              <div className="mb-4">
-                <span className="inline-block bg-gray-900 text-white px-3 py-1 text-xs font-bold uppercase">
-                  {categoryDisplayName}
-                </span>
-              </div>
-
-              <h1 className="text-3xl font-bold mb-4 text-gray-900 leading-tight">
-                {post.title}
-              </h1>
-
-              <div className="flex items-center gap-4 text-sm text-gray-500 mb-6">
-                <span>{formatDate(post.publishedAt)}</span>
-                <span>0</span>
-              </div>
-
-              {post.mainImageUrl && (
+              {post.mainImage && (
                 <div className="w-full mb-6">
                   <Image
-                    src={post.mainImageUrl}
+                    src={post.mainImage}
                     alt={post.mainImageAlt || "Main image"}
                     width={800}
                     height={600}
@@ -252,10 +204,25 @@ export default async function NewsPage({ params }) {
               )}
 
               {post.mainImageCaption && (
-                <p className="text-sm text-gray-600 mb-6 italic">
+                <p className="text-sm text-gray-600 mb-4 italic">
                   {post.mainImageCaption}
                 </p>
               )}
+
+              <div className="mb-4">
+                <span className="inline-block bg-gray-900 text-white px-3 py-1 text-xs font-bold uppercase">
+                  {categoryDisplayName}
+                </span>
+              </div>
+
+              <h1 className="text-3xl font-bold mb-4 text-gray-900 leading-tight">
+                {post.title}
+              </h1>
+
+              <div className="flex items-center gap-4 text-sm text-gray-500 mb-6 pb-4 border-b border-gray-200">
+                <span>{formatDate(post.publishedAt)}</span>
+                <span>0</span>
+              </div>
 
               <div className="prose prose-base max-w-none">
                 <PortableText
@@ -263,6 +230,20 @@ export default async function NewsPage({ params }) {
                   components={portableTextComponents}
                 />
               </div>
+
+              {post.videoLink && (
+                <div className="my-6">
+                  <div className="relative w-full pt-[56.25%] bg-black">
+                    <iframe
+                      className="absolute top-0 left-0 w-full h-full"
+                      src={`https://www.youtube.com/embed/${getYouTubeId(post.videoLink)}`}
+                      title="Video"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              )}
 
               <div className="mt-8 pt-6 border-t border-gray-200">
                 <Link
@@ -288,7 +269,6 @@ export default async function NewsPage({ params }) {
             </article>
           </div>
 
-          {/* Sidebar */}
           <div className="space-y-6">
             <div className="bg-gray-50 p-4">
               <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-red-600">

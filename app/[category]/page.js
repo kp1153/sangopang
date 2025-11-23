@@ -49,29 +49,44 @@ export default async function CategoryPage({ params }) {
           <div className="lg:col-span-2 space-y-6">
             {/* Hero Post */}
             {heroPost && (
-              <article className="relative h-80 overflow-hidden">
-                {heroPost.mainImageUrl && (
-                  <Image
-                    src={heroPost.mainImageUrl}
-                    alt={heroPost.mainImageAlt || heroPost.title}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
+              <article className="border border-gray-200 overflow-hidden">
+                {heroPost.mainImage && (
+                  <div className="relative h-80 bg-gray-100">
+                    <Image
+                      src={heroPost.mainImage}
+                      alt={heroPost.mainImageAlt || heroPost.title}
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                <div className="bg-white p-4">
                   <span className="inline-block bg-gray-900 text-white px-3 py-1 text-xs font-bold mb-3 uppercase">
                     {heroPost.category?.name}
                   </span>
-                  <h2 className="text-2xl font-bold mb-2 leading-tight">
-                    <Link
-                      href={`/${heroPost.category?.slug?.current}/${heroPost.slug?.current}`}
-                      className="hover:text-red-400 transition-colors"
-                    >
-                      {heroPost.title}
-                    </Link>
+                  <h2 className="text-2xl font-bold mb-3 leading-tight text-gray-900">
+                    {heroPost.title}
                   </h2>
+                  <Link
+                    href={`/${heroPost.category?.slug?.current}/${heroPost.slug?.current}`}
+                    className="inline-flex items-center text-red-600 hover:text-red-700 font-semibold text-sm"
+                  >
+                    और पढ़ें
+                    <svg
+                      className="w-4 h-4 ml-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
+                  </Link>
                 </div>
               </article>
             )}
@@ -83,10 +98,10 @@ export default async function CategoryPage({ params }) {
                   key={post._id}
                   className="bg-white border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
                 >
-                  {post.mainImageUrl && (
+                  {post.mainImage && (
                     <div className="relative h-48 bg-gray-100">
                       <Image
-                        src={post.mainImageUrl}
+                        src={post.mainImage}
                         alt={post.mainImageAlt || post.title}
                         fill
                         className="object-cover"
@@ -97,17 +112,32 @@ export default async function CategoryPage({ params }) {
                     <span className="inline-block bg-gray-900 text-white px-2 py-1 text-xs font-bold mb-2 uppercase">
                       {post.category?.name}
                     </span>
-                    <h3 className="font-bold text-base leading-tight mb-2 line-clamp-2 hover:text-red-600 transition-colors">
-                      <Link
-                        href={`/${post.category?.slug?.current}/${post.slug?.current}`}
-                      >
-                        {post.title}
-                      </Link>
+                    <h3 className="font-bold text-base leading-tight mb-2 line-clamp-2 text-gray-900">
+                      {post.title}
                     </h3>
-                    <div className="flex items-center gap-3 text-xs text-gray-500">
+                    <div className="flex items-center gap-3 text-xs text-gray-500 mb-3">
                       <span>{formatDate(post.publishedAt)}</span>
                       <span>0</span>
                     </div>
+                    <Link
+                      href={`/${post.category?.slug?.current}/${post.slug?.current}`}
+                      className="inline-flex items-center text-red-600 hover:text-red-700 font-semibold text-sm"
+                    >
+                      और पढ़ें
+                      <svg
+                        className="w-4 h-4 ml-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M13 7l5 5m0 0l-5 5m5-5H6"
+                        />
+                      </svg>
+                    </Link>
                   </div>
                 </article>
               ))}
@@ -124,10 +154,10 @@ export default async function CategoryPage({ params }) {
               <div className="space-y-4">
                 {popularPosts.map((post) => (
                   <article key={post._id} className="flex gap-3">
-                    {post.mainImageUrl && (
+                    {post.mainImage && (
                       <div className="relative w-20 h-20 flex-shrink-0">
                         <Image
-                          src={post.mainImageUrl}
+                          src={post.mainImage}
                           alt={post.mainImageAlt || post.title}
                           fill
                           className="object-cover"
