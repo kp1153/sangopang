@@ -36,18 +36,7 @@ export default function Navbar() {
               </Link>
 
               <div className="absolute left-1/2 transform -translate-x-1/2">
-                <Link href="/">
-                  <h1
-                    className="text-amber-600 hover:text-pink-700 text-8xl font-black whitespace-nowrap transition-colors cursor-pointer"
-                    style={{
-                      fontWeight: 900,
-                      textShadow:
-                        "4px 4px 0px rgba(0,0,0,0.3), 6px 6px 0px rgba(0,0,0,0.2)",
-                    }}
-                  >
-                    सांगोपांग
-                  </h1>
-                </Link>
+                <Link href="/"></Link>
               </div>
 
               <div className="w-[120px]"></div>
