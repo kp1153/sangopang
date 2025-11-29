@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@portabletext/react": "^5.0.0",
+    "@sanity/client": "^6.8.6",
     "@sanity/image-url": "^1.2.0",
     "@sanity/vision": "^4.15.0",
+    "axios": "^1.6.2",
     "form-data": "^4.0.5",
     "googleapis": "^166.0.0",
     "lucide-react": "^0.554.0",
