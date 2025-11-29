@@ -53,19 +53,17 @@ export default function Navbar() {
               <div className="w-[120px]"></div>
             </div>
 
-            {/* Second Row: Menu Items - Center */}
-            <div className="flex items-center justify-center">
-              <div className="flex items-center gap-2">
-                {menuItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="text-amber-600 px-6 py-2 hover:text-pink-700 hover:bg-zinc-800 font-bold text-base transition-colors rounded"
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </div>
+            {/* Second Row: Menu Items - Full Width */}
+            <div className="flex items-center justify-between w-full">
+              {menuItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="text-pink-800 px-2 py-2 hover:text-cyan-700 hover:bg-zinc-800 font-bold text-sm transition-colors rounded"
+                >
+                  {item.name}
+                </Link>
+              ))}
             </div>
           </div>
 
