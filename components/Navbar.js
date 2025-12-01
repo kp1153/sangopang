@@ -19,7 +19,7 @@ export default function Navbar() {
   return (
     <>
       {/* Navigation */}
-      <nav className="bg-zinc-900 py-6">
+      <nav className="bg-[#006680]">
         <div className="container mx-auto px-4">
           {/* Desktop Navigation */}
           <div className="hidden md:block">
@@ -48,7 +48,7 @@ export default function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="text-pink-800 px-2 py-2 hover:text-cyan-700 hover:bg-zinc-800 font-bold text-sm transition-colors rounded"
+                  className="text-white px-2 py-2 hover:text-cyan-700 hover:bg-zinc-800 font-bold text-sm transition-colors rounded"
                 >
                   {item.name}
                 </Link>
