@@ -17,116 +17,67 @@ export default function Navbar() {
   ];
 
   return (
-    <>
-      {/* Navigation */}
-      <nav className="bg-[#006680]">
-        <div className="container mx-auto px-4">
-          {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            {/* First Row: Logo (left) + Sangopang (center) */}
-            <div className="flex items-center justify-between mb-4 relative">
-              <Link href="/" className="flex-shrink-0">
-                <img
-                  src="/logo.png"
-                  alt="Sangopang Logo"
-                  width="120"
-                  height="120"
-                  className="object-contain"
-                />
-              </Link>
-
-              <div className="absolute left-1/2 transform -translate-x-1/2">
-                <Link href="/"></Link>
-              </div>
-
-              <div className="w-[120px]"></div>
-            </div>
-
-            {/* Second Row: Menu Items - Full Width */}
-            <div className="flex items-center justify-between w-full">
-              {menuItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="text-white px-2 py-2 hover:text-cyan-700 hover:bg-zinc-800 font-bold text-sm transition-colors rounded"
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
+    <nav className="bg-[#006680] py-4 shadow-xl">
+      <div className="container mx-auto px-4">
+        {/* ---------- DESKTOP ---------- */}
+        <div className="hidden md:block text-center">
+          {/* LOGO CENTER — जैसा Public folder में है वैसा ही */}
+          <div className="flex items-center justify-center mb-4">
+            <Link href="/">
+              <img
+                src="/logo.png" // ← public का original लोगो
+                alt="Site Logo"
+                className="object-contain mx-auto"
+              />
+            </Link>
           </div>
 
-          {/* Mobile Menu */}
-          <div className="md:hidden">
-            <div className="flex items-center justify-between mb-4">
-              <Link href="/" className="flex-shrink-0">
-                <img
-                  src="/logo.png"
-                  alt="Sangopang Logo"
-                  width="80"
-                  height="80"
-                  className="object-contain"
-                />
+          {/* MENU — दूसरी लाइन में */}
+          <div className="flex flex-wrap justify-center gap-3 bg-black/20 py-3 rounded-xl">
+            {menuItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-white px-3 py-2 font-bold transition rounded hover:bg-white hover:text-[#006680]"
+              >
+                {item.name}
               </Link>
-
-              <h1
-                className="text-amber-600 hover:text-pink-700 text-5xl font-black transition-colors"
-                style={{
-                  fontWeight: 900,
-                  textShadow:
-                    "3px 3px 0px rgba(0,0,0,0.3), 5px 5px 0px rgba(0,0,0,0.2)",
-                }}
-              >
-                सांगोपांग
-              </h1>
-
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="text-amber-600 focus:outline-none p-2 rounded-lg hover:bg-zinc-800 transition-colors"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  {isOpen ? (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  ) : (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  )}
-                </svg>
-              </button>
-            </div>
-
-            {isOpen && (
-              <ul className="space-y-1">
-                {menuItems.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className="block py-3 px-4 text-amber-600 hover:bg-zinc-800 transition-colors font-bold text-center"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
+            ))}
           </div>
         </div>
-      </nav>
-    </>
+
+        {/* ---------- MOBILE ---------- */}
+        <div className="md:hidden">
+          <div className="flex items-center justify-between mb-3">
+            <Link href="/">
+              <img src="/logo.png" alt="Site Logo" className="object-contain" />
+            </Link>
+
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-white border p-2 rounded-lg"
+            >
+              {isOpen ? "✖" : "☰"}
+            </button>
+          </div>
+
+          {isOpen && (
+            <ul className="bg-black/25 rounded py-2">
+              {menuItems.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="block py-3 px-4 text-white text-center font-bold hover:bg-white hover:text-[#006680] transition"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    </nav>
   );
 }
