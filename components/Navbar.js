@@ -17,28 +17,29 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="bg-[#006680] py-4 shadow-xl">
+    <nav className="bg-[#006680] py-3 shadow-md">
       <div className="container mx-auto px-4">
-        {/* ---------- DESKTOP ---------- */}
+        {/* DESKTOP */}
         <div className="hidden md:block text-center">
-          {/* LOGO CENTER — जैसा Public folder में है वैसा ही */}
-          <div className="flex items-center justify-center mb-4">
+          {/* LOGO CENTER — now properly scaled */}
+          <div className="flex justify-center mb-3">
             <Link href="/">
               <img
-                src="/logo.png" // ← public का original लोगो
+                src="/logo.png"
                 alt="Site Logo"
-                className="object-contain mx-auto"
+                className="object-contain"
+                style={{ height: "90px" }} // ← नई perfect height
               />
             </Link>
           </div>
 
-          {/* MENU — दूसरी लाइन में */}
-          <div className="flex flex-wrap justify-center gap-3 bg-black/20 py-3 rounded-xl">
+          {/* MENU SECOND LINE */}
+          <div className="flex justify-center gap-3 bg-black/20 py-3 rounded-xl flex-wrap">
             {menuItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-white px-3 py-2 font-bold transition rounded hover:bg-white hover:text-[#006680]"
+                className="text-white font-bold px-3 py-2 hover:bg-white hover:text-[#006680] transition rounded"
               >
                 {item.name}
               </Link>
@@ -46,16 +47,21 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ---------- MOBILE ---------- */}
+        {/* MOBILE */}
         <div className="md:hidden">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex justify-between items-center mb-2">
             <Link href="/">
-              <img src="/logo.png" alt="Site Logo" className="object-contain" />
+              <img
+                src="/logo.png"
+                alt="Site Logo"
+                className="object-contain"
+                style={{ height: "65px" }} // ← mobile cleaned proportional
+              />
             </Link>
 
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-white border p-2 rounded-lg"
+              className="text-white border p-2 rounded"
             >
               {isOpen ? "✖" : "☰"}
             </button>
@@ -67,7 +73,7 @@ export default function Navbar() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="block py-3 px-4 text-white text-center font-bold hover:bg-white hover:text-[#006680] transition"
+                    className="block text-white text-center py-3 font-bold hover:bg-white hover:text-[#006680] transition"
                     onClick={() => setIsOpen(false)}
                   >
                     {item.name}
