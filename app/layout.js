@@ -16,10 +16,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "सांगोपांग-सार समाचार",
-  description: "समाचार और सामान्य ज्ञान हिंदी भाषा में",
+  title: "सांगोपांग - समाचार और जानकारी",
+  description: "प्रौद्योगिकी और लोकरुचि की जानकारी हिंदी में",
   keywords:
-    "समाचार, सार, हिंदी, वायरल, जयपुर, राजस्‍थान, गांव, ग्रामीण, वायरल फोटो",
+    "समाचार, हिंदी समाचार, जयपुर, नगर-डगर, दुनिया-जहान, फोटो फीचर, खेल संसार",
   authors: [{ name: "सांगोपांग" }],
   creator: "सांगोपांग",
   publisher: "सांगोपांग",
@@ -38,14 +38,14 @@ export const metadata = {
     type: "website",
     locale: "hi_IN",
     url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.sangopang.com",
-    siteName: "सांगोपांग",
-    title: "सांगोपांग-सार समाचार",
-    description: "समाचार और सामान्य ज्ञान हिंदी भाषा में",
+    siteName: "सांगोपांग-सार समाचार",
+    title: "समाचार और सामान्य ज्ञान हिंदी भाषा में",
+    description: "प्रौद्योगिकी और लोकरुचि की जानकारी हिंदी में",
   },
   twitter: {
     card: "summary_large_image",
-    title: "सांगोपांग-सार समाचार",
-    description: "समाचार और सामान्य ज्ञान हिंदी भाषा में",
+    title: "सांगोपांग - समाचार और जानकारी",
+    description: "प्रौद्योगिकी और लोकरुचि की जानकारी हिंदी में",
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
@@ -65,7 +65,7 @@ export default function RootLayout({ children }) {
         {GA_ID && (
           <>
             <Script
-              src={https://www.googletagmanager.com/gtag/js?id=${GA_ID}}
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
               strategy="afterInteractive"
             />
             <Script id="google-analytics" strategy="afterInteractive">
@@ -82,7 +82,7 @@ export default function RootLayout({ children }) {
         )}
       </head>
       <body
-        className={${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
         <Navbar />
         <main className="flex-grow">{children}</main>
