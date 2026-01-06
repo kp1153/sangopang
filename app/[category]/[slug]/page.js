@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getPostBySlugAndCategory } from "@/lib/sanity";
 import { PortableText } from "@portabletext/react";
+import { Edit } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -187,6 +188,16 @@ export default async function NewsPage({ params }) {
 
   return (
     <main className="min-h-screen bg-white">
+      <a 
+        href={`https://www.sangopang.com/studio/structure/post;${post._id}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 bg-blue-600 text-white px-4 py-3 rounded-lg shadow-lg hover:bg-blue-700 flex items-center gap-2 z-50"
+      >
+        <Edit size={18} />
+        एडिट करें
+      </a>
+
       <div className="container mx-auto px-4 py-6">
         <div className="grid lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
